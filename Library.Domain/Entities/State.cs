@@ -1,6 +1,4 @@
-﻿using Library.Domain.BaseEntity;
-
-namespace Library.Domain.Entities
+﻿namespace Library.Domain.Entities
 {
     public enum EntityState
     {
@@ -8,7 +6,7 @@ namespace Library.Domain.Entities
         Inactive = 2,
     };
 
-    public class State : Entity
+    public class State
     {
         public int Id { get; set; }
         public string Description { get; set; }
