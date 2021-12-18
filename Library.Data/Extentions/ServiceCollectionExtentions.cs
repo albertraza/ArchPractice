@@ -1,4 +1,6 @@
-﻿using Library.Data.DataAccess.Core.Contracts;
+﻿using Library.Data.DataAccess.Core;
+using Library.Data.DataAccess.Core.Contracts;
+using Library.Data.DataAccess.Persistence;
 using Library.Data.DataAccess.Persistence.Repositories;
 using Library.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,8 @@ namespace Library.Data.Extentions
 
         public static IServiceCollection ConfigureDataServices(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IRepository<Author>, BaseRepository<Author>>();
             services.AddScoped<IRepository<AuthorBook>, BaseRepository<AuthorBook>>();
             services.AddScoped<IRepository<Book>, BaseRepository<Book>>();
