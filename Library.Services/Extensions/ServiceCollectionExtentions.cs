@@ -13,7 +13,7 @@ namespace Library.Services.Extensions
     {
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IService<Author>, BaseService<Author>>();
+            services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IService<AuthorBook>, BaseService<AuthorBook>>();
             services.AddScoped<IService<Book>, BaseService<Book>>();
             services.AddScoped<IService<State>, BaseService<State>>();
