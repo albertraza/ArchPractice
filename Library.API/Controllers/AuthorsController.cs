@@ -10,20 +10,21 @@ namespace Library.API.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
-        private readonly IService<Author> _service;
+        private readonly IAuthorService _service;
         private readonly IMapper _mapper;
 
-        public AuthorsController(IService<Author> service, IMapper mapper)
+        public AuthorsController(IAuthorService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
         }
 
 
+        [HttpHead(Name = "AuthorsHead")]
         [HttpGet(Name = "GetAuthors")]
-        public async Task<ActionResult<IEnumerable<AuthorForPresentationDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<AuthorForPresentationDTO>>> Get(string fullName)
         {
-            IEnumerable<Author> authors = await _service.GetAllAsync();
+            IEnumerable<Author> authors = await _service.GetAllAsync(fullName);
             return _mapper.Map<IEnumerable<AuthorForPresentationDTO>>(authors).ToList();
         }
 
@@ -36,6 +37,7 @@ namespace Library.API.Controllers
             return CreatedAtRoute("GetAuthor", new { authorCreated.Id }, _mapper.Map<AuthorForPresentationDTO>(authorCreated));
         }
 
+        [HttpHead("{Id}", Name = "AuthorHead")]
         [HttpGet("{Id}", Name = "GetAuthor")]
         public async Task<ActionResult<AuthorForPresentationDTO>> Get(int id)
         {
