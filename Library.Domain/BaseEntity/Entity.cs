@@ -2,7 +2,12 @@
 
 namespace Library.Domain.BaseEntity
 {
-    public class Entity
+    public enum EntityStates
+    {
+        Active = 1,
+        Inactive = 2
+    };
+    public class Entity : IEntity
     {
         public int StateId { get; set; }
         public State State { get; set; }
