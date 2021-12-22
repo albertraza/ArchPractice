@@ -63,9 +63,9 @@ namespace Library.Data.DataAccess.Persistence.Repositories
             return _dbContext.Set<T>().Where(predicate).ToList();
         }
 
-        public virtual Task<IEnumerable<T>> WhereAsync(Func<T, bool> predicate)
+        public virtual async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().Where(predicate).ToListAsync();
         }
     }
 }

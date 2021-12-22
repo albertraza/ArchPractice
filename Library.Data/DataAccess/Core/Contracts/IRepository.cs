@@ -11,7 +11,7 @@ namespace Library.Data.DataAccess.Core.Contracts
         T Get(object id);
         Task<IEnumerable<T>> GetAllAsync();
         IEnumerable<T> GetAll();
-        Task<IEnumerable<T>> WhereAsync(Func<T, bool> predicate);
+        Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate);
         IEnumerable<T> Where(Func<T, bool> predicate);
         Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate);
         T SingleOrDefault(Func<T, bool> predicate);
