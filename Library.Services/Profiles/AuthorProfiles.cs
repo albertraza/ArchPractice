@@ -8,7 +8,7 @@ namespace Library.Services.Profiles
     {
         public AuthorProfiles()
         {
-            CreateMap<AuthorForCreationDTO, Author>();
+            CreateMap<AuthorForCreationDTO, Author>().ReverseMap();
             CreateMap<Author, AuthorForPresentationDTO>()
                 .ForMember(obj => obj.FullName, obj => obj.MapFrom((s) => $"{s.Firstname} {s.Lastname}"))
                 .ForMember(obj => obj.Age, obj => obj.MapFrom(s => new DateTime((DateTime.Now - s.DateBorn).Ticks).Year - 1));

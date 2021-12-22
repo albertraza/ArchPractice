@@ -2,7 +2,11 @@
 using Library.Domain.Entities;
 using Library.Services.Contracts;
 using Library.Services.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Options;
 
 namespace Library.API.Controllers
 {
@@ -59,6 +63,36 @@ namespace Library.API.Controllers
             await _service.UpdateAsync(authorToUpdate);
 
             return NoContent();
+        }
+
+        [HttpPatch("{Id}", Name = "PatchAuthor")]
+        public async Task<IActionResult> PatchAuthor(int id, JsonPatchDocument<AuthorForCreationDTO> jsonPatchDocument)
+        {
+            Author author = await _service.GetAsync(id);
+
+            if (author == null) return NotFound();
+
+            AuthorForCreationDTO authorForCreation = _mapper.Map<AuthorForCreationDTO>(author);
+            jsonPatchDocument.ApplyTo(authorForCreation);
+
+
+            if (!TryValidateModel(authorForCreation))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            Author authorToUpdate = _mapper.Map<Author>(authorForCreation);
+            authorToUpdate.Id = id;
+
+            await _service.UpdateAsync(authorToUpdate);
+
+            return NoContent();
+        }
+
+        public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
+        {
+            IOptions<ApiBehaviorOptions> options = HttpContext.RequestServices.GetRequiredService<IOptions<ApiBehaviorOptions>>();
+            return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
     }
 }

@@ -10,6 +10,7 @@ builder.Services.AddControllers(setupAction =>
 {
     setupAction.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters()
+    .AddNewtonsoftJson()
    .ConfigureApiBehaviorOptions(setupAction =>
    {
        setupAction.InvalidModelStateResponseFactory = context =>
