@@ -15,6 +15,7 @@ namespace Library.Data.Extentions
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseSqlServer(configuration.GetConnectionString("LocalDb"));
             });
 
